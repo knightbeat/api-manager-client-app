@@ -34,7 +34,7 @@ public class Executor {
     private static final String PASSOWRD = "wso2123_";
 
     private static final String TOKEN_FILE_NAME = "config.properties";
-    private static final String API_HOST = "http://52.91.85.201:8280";
+    private static final String API_HOST = "http://api.democloud.com:8280";
     private static final String BASE_API_PATH = "/travelroutes/1.0/transport-options";
 
     private static String accessToken = "";
@@ -42,7 +42,7 @@ public class Executor {
 
     public static void main(String[] args) throws ClientProtocolException, IOException {
 
-        //invokeAPI(API_HOST + BASE_API_PATH +"/routes?from=KT89HA&to=NN14JL&at=08%3A00");
+        invokeAPI(API_HOST + BASE_API_PATH +"/routes?from=KT89HA&to=NN14JL&at=08%3A00");
         //invokeAPI(API_HOST + BASE_API_PATH +"/routes/LNDN00014");
         
         // To demo the Peak hit
@@ -50,7 +50,7 @@ public class Executor {
             //System.out.println("Invocation "+i);
             //invokeAPI("http://52.91.85.201:8280/democal/1.0.0/add?x=100&y="+(i*100));
             //invokeAPI(API_HOST + BASE_API_PATH +"/routes?from=KT89HA&to=NN14JL&at=08%3A00");
-            invokeAPI(API_HOST + BASE_API_PATH +"/routes/LNDN00012");
+            //invokeAPI(API_HOST + BASE_API_PATH +"/routes/LNDN00012");
         }
     }
 
