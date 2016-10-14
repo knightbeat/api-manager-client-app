@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.teachingbad.restclient01;
 
 import java.io.BufferedReader;
@@ -43,27 +38,27 @@ public class Executor {
 
     public static void main(String[] args) throws ClientProtocolException, IOException {
 
-        invokeAPI(API_GATEWAY_HOST + BASE_API_PATH +"/routes?from=KT89HA&to=NN14JL&at=08%3A00");
+        invokeAPI(API_GATEWAY_HOST + BASE_API_PATH + "/routes?from=KT89HA&to=NN14JL&at=08%3A00");
         //invokeAPI(API_HOST + BASE_API_PATH +"/routes/LNDN00014");
-        
+
         // To demo the Peak hit
-        for(int i = 0; i < 100; i++){
-            //System.out.println("Invocation "+i);
-            //invokeAPI("http://52.91.85.201:8280/democal/1.0.0/add?x=100&y="+(i*100));
-            //invokeAPI(API_HOST + BASE_API_PATH +"/routes?from=KT89HA&to=NN14JL&at=08%3A00");
-            //invokeAPI(API_HOST + BASE_API_PATH +"/routes/LNDN00012");
-        }
+        //for(int i = 0; i < 100; i++){
+        //System.out.println("Invocation "+i);
+        //invokeAPI("http://52.91.85.201:8280/democal/1.0.0/add?x=100&y="+(i*100));
+        //invokeAPI(API_HOST + BASE_API_PATH +"/routes?from=KT89HA&to=NN14JL&at=08%3A00");
+        //invokeAPI(API_HOST + BASE_API_PATH +"/routes/LNDN00012");
+        //}
     }
 
     public static void invokeAPI(String url) throws ClientProtocolException, IOException {
         HttpClient client = new DefaultHttpClient();
         HttpGet request;
-        
+
         request = new HttpGet(url);
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         request.setHeader("Authorization", getToken(false));
         HttpResponse response = client.execute(request);
-        
+
         if (response.getStatusLine().getStatusCode() == 401) {
             System.out.println("EXISTING TOKEN IS INVALID");
             if (response.getEntity() != null) {
@@ -71,7 +66,7 @@ public class Executor {
             }
             request.setHeader("Authorization", getToken(true));
             response = client.execute(request);
-        }else{
+        } else {
             System.out.println("EXISTING TOKEN IS VALID");
         }
         BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
@@ -95,7 +90,7 @@ public class Executor {
         //System.out.println("encodedBytes " + new String(encodedBytes));
         if (isRefreshed) {
             System.out.println("REQUESTING TOKEN FROM API-M SERVER");
-            request = new HttpPost(TOKEN_API_HOST+"/token?grant_type=password&username=" + USERNAME + "&password=" + PASSOWRD);
+            request = new HttpPost(TOKEN_API_HOST + "/token?grant_type=password&username=" + USERNAME + "&password=" + PASSOWRD);
             request.setHeader("Authorization", "Basic " + new String(encodedBytes));
             request.setHeader("Content-Type", "application/x-www-form-urlencoded");
             HttpResponse response = client.execute(request);
@@ -109,20 +104,19 @@ public class Executor {
             JSONObject jObject = new JSONObject(responseStr); // json
             accessToken = jObject.getString("access_token");
 
-            System.out.println("RECORDING NEW ACCESS TOKEN FOR "+USERNAME);
+            System.out.println("RECORDING NEW ACCESS TOKEN FOR " + USERNAME);
             prop = new Properties();
             prop.load(new FileInputStream(TOKEN_FILE_NAME));
             prop.put(USERNAME, accessToken);
-            output = new FileOutputStream("config.properties");
+            output = new FileOutputStream(TOKEN_FILE_NAME);
             prop.store(output, "This is overwrite file");
-            return "Bearer " + accessToken;
         } else {
             input = new FileInputStream(TOKEN_FILE_NAME);
             prop = new Properties();
             prop.load(input);
             accessToken = prop.getProperty(USERNAME);
-            System.out.println("RETURNING ACCESS TOKEN FOR "+USERNAME);
-            return "Bearer " + accessToken;
+            System.out.println("RETURNING ACCESS TOKEN FOR " + USERNAME);
         }
+        return "Bearer " + accessToken;
     }
 }
