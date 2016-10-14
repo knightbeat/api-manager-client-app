@@ -30,11 +30,12 @@ public class Executor {
 
     private static final String CLIENT_KEY = "JJt_xfuNutSmGgg64uCdRB52bgYa";
     private static final String CLIENT_SECRET = "kZf818WxJJfQr2hja7b4jnIhz6oa";
-    private static final String USERNAME = "jessey";
+    private static final String USERNAME = "walter";
     private static final String PASSOWRD = "wso2123_";
 
     private static final String TOKEN_FILE_NAME = "config.properties";
-    private static final String API_HOST = "http://api.democloud.com:8280";
+    private static final String API_GATEWAY_HOST = "http://api.democloud.com:8280";
+    private static final String TOKEN_API_HOST = "http://security.democloud.com:8280";
     private static final String BASE_API_PATH = "/travelroutes/1.0/transport-options";
 
     private static String accessToken = "";
@@ -42,7 +43,7 @@ public class Executor {
 
     public static void main(String[] args) throws ClientProtocolException, IOException {
 
-        invokeAPI(API_HOST + BASE_API_PATH +"/routes?from=KT89HA&to=NN14JL&at=08%3A00");
+        invokeAPI(API_GATEWAY_HOST + BASE_API_PATH +"/routes?from=KT89HA&to=NN14JL&at=08%3A00");
         //invokeAPI(API_HOST + BASE_API_PATH +"/routes/LNDN00014");
         
         // To demo the Peak hit
@@ -94,7 +95,7 @@ public class Executor {
         //System.out.println("encodedBytes " + new String(encodedBytes));
         if (isRefreshed) {
             System.out.println("REQUESTING TOKEN FROM API-M SERVER");
-            request = new HttpPost("http://52.91.85.201:8280/token?grant_type=password&username=" + USERNAME + "&password=" + PASSOWRD);
+            request = new HttpPost(TOKEN_API_HOST+"/token?grant_type=password&username=" + USERNAME + "&password=" + PASSOWRD);
             request.setHeader("Authorization", "Basic " + new String(encodedBytes));
             request.setHeader("Content-Type", "application/x-www-form-urlencoded");
             HttpResponse response = client.execute(request);
