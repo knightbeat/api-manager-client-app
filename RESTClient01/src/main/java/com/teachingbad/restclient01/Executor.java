@@ -56,7 +56,7 @@ public class Executor {
 
         request = new HttpGet(url);
         request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-        request.setHeader("Authorization", getToken(false));
+        request.setHeader("Authorization", getAuthorizationHeader(false));
         HttpResponse response = client.execute(request);
 
         if (response.getStatusLine().getStatusCode() == 401) {
@@ -64,7 +64,7 @@ public class Executor {
             if (response.getEntity() != null) {
                 response.getEntity().consumeContent();
             }
-            request.setHeader("Authorization", getToken(true));
+            request.setHeader("Authorization", getAuthorizationHeader(true));
             response = client.execute(request);
         } else {
             System.out.println("EXISTING TOKEN IS VALID");
@@ -76,7 +76,7 @@ public class Executor {
         }
     }
 
-    public static String getToken(boolean isRefreshed) throws IOException {
+    public static String getAuthorizationHeader(boolean isRequireTokenRefreshed) throws IOException {
 
         HttpClient client = new DefaultHttpClient();
         HttpPost request;
@@ -88,7 +88,7 @@ public class Executor {
         InputStream input = null;
 
         //System.out.println("encodedBytes " + new String(encodedBytes));
-        if (isRefreshed) {
+        if (isRequireTokenRefreshed) {
             System.out.println("REQUESTING TOKEN FROM API-M SERVER");
             request = new HttpPost(TOKEN_API_HOST + "/token?grant_type=password&username=" + USERNAME + "&password=" + PASSOWRD);
             request.setHeader("Authorization", "Basic " + new String(encodedBytes));
