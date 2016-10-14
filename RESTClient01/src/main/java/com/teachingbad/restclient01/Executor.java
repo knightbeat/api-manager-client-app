@@ -23,8 +23,8 @@ import java.util.Properties;
  */
 public class Executor {
 
-    private static final String CLIENT_KEY = "JJt_xfuNutSmGgg64uCdRB52bgYa";
-    private static final String CLIENT_SECRET = "kZf818WxJJfQr2hja7b4jnIhz6oa";
+    private static final String CONSUMER_KEY = "JJt_xfuNutSmGgg64uCdRB52bgYa";
+    private static final String CONSUMER_SECRET = "kZf818WxJJfQr2hja7b4jnIhz6oa";
     private static final String USERNAME = "walter";
     private static final String PASSOWRD = "wso2123_";
 
@@ -80,7 +80,7 @@ public class Executor {
 
         HttpClient client = new DefaultHttpClient();
         HttpPost request;
-        String authHeader = CLIENT_KEY + ":" + CLIENT_SECRET;
+        String authHeader = CONSUMER_KEY + ":" + CONSUMER_SECRET;
         byte[] encodedBytes = Base64.encodeBase64(authHeader.getBytes());
 
         Properties prop;
